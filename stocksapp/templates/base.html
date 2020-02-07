@@ -27,16 +27,54 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'add_stock' %}">Add Stocks</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'delete_stock' %}">Delete Stocks</a>
+                </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form class="form-inline my-2 my-lg-0" action="{% url 'index' %}" method="POST">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Get Stock Quote" aria-label="Search" name="ticker">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Stock Quote</button>
             </form>
         </div>
     </nav>
     <br>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
 
-    {% block content %}
-    {% endblock %}
+                <div class="alert alert-success alert-dismissable" role="alert" id="msgs">
+                    <button class="close" data-dismiss="alert" id="close">&times;</button>
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const close = document.getElementById("close");
+
+            if (document.getElementById("msgs")) {
+                const msgs = document.getElementById("msgs");
+
+                close.onclick = () => {
+                    msgs.remove()
+                }
+            }
+            
+        })
+    </script>
+    
 </body>
 </html>

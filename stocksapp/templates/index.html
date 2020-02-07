@@ -4,9 +4,28 @@
 
 
 {% block content %}
-    <div class="container">
-        <h1>Welcome</h1>
-    </div>
-    
+
+
+    {% if api %}
+
+        {% if api != "Error" %}
+            <h1>{{ api.companyName }}</h1>
+
+            <p>Price: ${{ api.latestPrice }}</p>
+            <p>Previous close: {{ api.previousClose }}</p>
+            <p>Market Cap: {{ api.marketCap }}</p>
+            <p>YTD Change: {{ api.ytdChange }}</p>
+            <p>52 WK High: {{ api.week52High }}</p>
+            <p>52 WK Low: {{ api.week52Low }}</p>
+
+        {% else %}
+            <p>There was a problem with your ticker symbol. Please try again...</p>
+
+        {% endif %}
+
+    {% elif ticker %}
+        <p>{{ ticker }}</p>
+    {% endif %}
+
 {% endblock %}
 
